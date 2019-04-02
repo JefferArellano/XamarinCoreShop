@@ -14,11 +14,11 @@ namespace VirtualShop.Web.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(maxLength: 50, nullable: false),
                     Price = table.Column<decimal>(nullable: false),
                     ImageUrl = table.Column<string>(nullable: true),
-                    LastPurchase = table.Column<DateTime>(nullable: false),
-                    LastSale = table.Column<DateTime>(nullable: false),
+                    LastPurchase = table.Column<DateTime>(nullable: true),
+                    LastSale = table.Column<DateTime>(nullable: true),
                     IsAvailabe = table.Column<bool>(nullable: false),
                     Stock = table.Column<double>(nullable: false)
                 },

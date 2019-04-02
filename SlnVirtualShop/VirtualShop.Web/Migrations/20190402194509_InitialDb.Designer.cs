@@ -10,7 +10,7 @@ using VirtualShop.Web.Data;
 namespace VirtualShop.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190402140515_InitialDb")]
+    [Migration("20190402194509_InitialDb")]
     partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,11 +31,13 @@ namespace VirtualShop.Web.Migrations
 
                     b.Property<bool>("IsAvailabe");
 
-                    b.Property<DateTime>("LastPurchase");
+                    b.Property<DateTime?>("LastPurchase");
 
-                    b.Property<DateTime>("LastSale");
+                    b.Property<DateTime?>("LastSale");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
                     b.Property<decimal>("Price");
 
