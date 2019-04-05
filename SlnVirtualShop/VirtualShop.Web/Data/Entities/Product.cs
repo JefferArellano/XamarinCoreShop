@@ -30,6 +30,5 @@
         public double Stock { get; set; }
 
         public User User { get; set; }
-
     }
 }
