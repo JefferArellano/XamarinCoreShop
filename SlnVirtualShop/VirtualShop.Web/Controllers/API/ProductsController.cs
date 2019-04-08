@@ -1,9 +1,5 @@
 ﻿namespace VirtualShop.Web.Controllers.API
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using VirtualShop.Web.Data;
 
@@ -19,9 +15,9 @@
 
         // GET: api/<controller>
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult GetProducts()
         {
-            return Ok(this.productRepository.GetAll());
+            return Ok(this.productRepository.GetAllWithUsers());
         }
 
         // GET api/<controller>/5

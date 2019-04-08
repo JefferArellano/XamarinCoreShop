@@ -3,11 +3,11 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    public class Product: IEntity
+    public class Product : IEntity
     {
         public int Id { get; set; }
 
-        [MaxLength(50,ErrorMessage ="Max Lenght for field {0} is {1} ")]
+        [MaxLength(50, ErrorMessage = "Max Lenght for field {0} is {1} ")]
         [Required]
         public string Name { get; set; }
 
@@ -30,5 +30,19 @@
         public double Stock { get; set; }
 
         public User User { get; set; }
+
+        public string ImageFullPath
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(this.ImageUrl))
+                    return null;
+
+                return $"https://localhost:44314{this.ImageUrl.Substring(1)}";
+
+
+            }
+        }
+
     }
 }
