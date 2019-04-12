@@ -9,9 +9,42 @@
             BindingContext="{Binding Products}"
             Padding="8">
             <ListView
+                IsRefreshing="{Binding IsRefreshing,Mode=TwoWay}"
                 HasUnevenRows="True"
-                ItemsSource="{Binding Products,Mode=TwoWay}">              
-            </ListView>            
+                ItemsSource="{Binding Products}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition  Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Image
+                                    Grid.Column="0"
+                                    Source="{Binding ImageFullPath}"
+                                    WidthRequest="100">
+                                </Image>
+                                <StackLayout
+                                    Grid.Column="1"
+                                    VerticalOptions="Center">
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="Medium"
+                                        Text="{Binding Name}"
+                                        TextColor="Black"/>
+                                    <Label
+                                        Text="{Binding Price,StringFormat='Price: {0:C2}'}"
+                                        TextColor="Navy"/>
+                                    <Label
+                                        Text="{Binding Stock,StringFormat='Stock: {0:N2}'}"
+                                        TextColor="Black"/>
+                                </StackLayout>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

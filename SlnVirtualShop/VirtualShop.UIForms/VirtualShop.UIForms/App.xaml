@@ -6,6 +6,9 @@
 	<Application.Resources>
         <ResourceDictionary>
 
+            <!--Services -->
+            <x:String x:Key="WebUrl">http://192.168.0.27/VirtualShop</x:String>           
+
             <!--Locator-->
             <infra:InstanceLocator x:Key="Locator"/>
 

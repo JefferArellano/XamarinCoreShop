@@ -38,7 +38,7 @@
                 if (string.IsNullOrEmpty(this.ImageUrl))
                     return null;
 
-                return $"https://localhost:44314{this.ImageUrl.Substring(1)}";
+                return $"http://192.168.0.27/VirtualShop{this.ImageUrl.Substring(1)}";
 
 
             }

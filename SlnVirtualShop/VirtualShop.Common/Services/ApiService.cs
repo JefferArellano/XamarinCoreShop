@@ -1,12 +1,13 @@
 ﻿namespace VirtualShop.Common.Services
 {
-    using Models;
-    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.Net.Http;
-    using System.Net.Http.Headers;
+    using Models;
+    using Newtonsoft.Json;
     using System.Threading.Tasks;
+    using System.Net.Http.Headers;
+    using System.Text;
 
     public class ApiService
     {
@@ -22,7 +23,7 @@
                 //    BaseAddress = new Uri(urlBase)
                 //};
 
-                var url = new Uri($"{urlBase}{servicePrefix}{controller}");
+                var url =$"{urlBase}{servicePrefix}{controller}";
                 var response = await client.GetAsync(url);
                 var result = await response.Content.ReadAsStringAsync();
 
