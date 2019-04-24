@@ -1,10 +1,12 @@
 ﻿namespace VirtualShop.Web.Controllers
 {
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using System.Linq;
     using System.Threading.Tasks;
-    using VirtualShop.Web.Helpers;
-    using VirtualShop.Web.Models;
+    using Data.Entities;
+    using Helpers;
+    using Models;
 
     public class AccountController : Controller
     {
@@ -48,11 +50,57 @@
         public async Task<IActionResult> Logout()
         {
             await this.userHelper.LogoutAsync();
-            return this.RedirectToAction("Index","Home");
+            return this.RedirectToAction("Index", "Home");
         }
         public IActionResult Register()
         {
             return this.View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterNewUserViewModel model)
+        {
+            if (this.ModelState.IsValid)
+            {
+                var user = await this.userHelper.GetUserByEmailAsync(model.UserName);
+                if (user == null)
+                {
+                    user = new User
+                    {
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        Email = model.UserName,
+                        UserName = model.UserName
+                    };
+
+                    var result = await this.userHelper.AddUserAsync(user, model.Password);
+                    if (result != IdentityResult.Success)
+                    {
+                        this.ModelState.AddModelError(string.Empty, "The user couldn't be create");
+                        return this.View(model);
+                    }
+
+                    var loginData = new LoginViewModel
+                    {
+                        Password = model.Password,
+                        RememberMe = false,
+                        UserName = model.UserName
+                    };
+
+                    var result2 = await this.userHelper.LoginAsync(loginData);
+
+                    if (result2.Succeeded)
+                        return this.RedirectToAction("Index", "Home");
+
+                    this.ModelState.AddModelError(string.Empty, "The user couldn't be login");
+                    return this.View(model);
+
+                }
+
+                this.ModelState.AddModelError(string.Empty, "The username already registered");
+            }
+
+            return this.View(model);
         }
     }
 }
