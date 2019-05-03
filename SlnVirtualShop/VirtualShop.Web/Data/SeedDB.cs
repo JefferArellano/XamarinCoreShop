@@ -1,11 +1,10 @@
 ﻿namespace VirtualShop.Web.Data
 {
-    using System;
-    using System.Linq;
-    using System.Threading.Tasks;
     using Entities;
-    using Microsoft.AspNetCore.Identity;
     using Helpers;
+    using Microsoft.AspNetCore.Identity;
+    using System;
+    using System.Threading.Tasks;
 
     public class SeedDb
     {
@@ -24,8 +23,12 @@
         {
             await this.context.Database.EnsureCreatedAsync();
 
+            await this.userHelper.CheckRoleAsync("Admin");
+            await this.userHelper.CheckRoleAsync("Customer");
+
+
             var user = await this.userHelper.GetUserByEmailAsync("jefferarellano@gmail.com");
-            if (user== null)
+            if (user == null)
             {
                 user = new User
                 {
@@ -35,21 +38,31 @@
                     UserName = "jefferarellano@gmail.com",
                     PhoneNumber = "3217521347"
                 };
+
+                var result = await this.userHelper.AddUserAsync(user, "123456");
+                if (result != IdentityResult.Success)
+                {
+                    throw new InvalidOperationException("Could not create the user in seeder");
+                }
+                await this.userHelper.AddUserToRoleAsync(user, "Admin");
             }
 
-            var result = await this.userHelper.AddUserAsync(user,"123456");
-            if (result != IdentityResult.Success)
+            var isInRole = await this.userHelper.IsUserInRoleAsync(user, "Admin");
+
+            if (!isInRole)
             {
-                throw new InvalidOperationException("Could not create the user in seeder");
+                await this.userHelper.AddUserToRoleAsync(user,"Admin");
+
             }
 
-            if (!this.context.Products.Any())
-            {
-                this.AddProduct("iPhone X",user);
-                this.AddProduct("Magic Mouse", user);
-                this.AddProduct("iWatch Series 4", user);
-                await this.context.SaveChangesAsync();
-            }
+
+            //if (!this.context.Products.Any())
+            //{
+            //    this.AddProduct("iPhone X",user);
+            //    this.AddProduct("Magic Mouse", user);
+            //    this.AddProduct("iWatch Series 4", user);
+            //    await this.context.SaveChangesAsync();
+            //}
         }
 
         private void AddProduct(string name, User user)
@@ -60,7 +73,7 @@
                 Price = this.random.Next(1000),
                 IsAvailabe = true,
                 Stock = this.random.Next(100),
-                User =  user
+                User = user
             });
         }
 

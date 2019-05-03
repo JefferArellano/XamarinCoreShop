@@ -229,5 +229,11 @@
 
             return this.BadRequest();
         }
+
+        public IActionResult NoAuthorized()
+        {
+            return this.View();
+        }
+
     }
 }

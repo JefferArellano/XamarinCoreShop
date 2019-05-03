@@ -1,4 +1,4 @@
-﻿namespace VirtualShop.Web.Data
+﻿namespace VirtualShop.Web.Data.Repositories
 {
     using System.Linq;
     using System.Threading.Tasks;
